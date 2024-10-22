@@ -1,6 +1,7 @@
 package com.lihao.springboottemplate.config;
 
 import com.lihao.springboottemplate.utils.ApiResponse;
+import com.lihao.springboottemplate.utils.JwtAuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -32,11 +33,11 @@ public class GlobalExceptionHandler {
     }
 
     // 处理JWT相关的异常
-//    @ExceptionHandler(JwtAuthenticationException.class)
-//    @ResponseStatus(HttpStatus.UNAUTHORIZED) // 设置401状态码
-//    public ApiResponse<String> handleJwtAuthenticationException(JwtAuthenticationException ex) {
-//        return ApiResponse.error(401, ex.getMessage());
-//    }
+    @ExceptionHandler(JwtAuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED) // 设置401状态码
+    public ApiResponse<String> handleJwtAuthenticationException(JwtAuthenticationException ex) {
+        return ApiResponse.error(401, ex.getMessage());
+    }
 
     // 你可以根据需要添加更多的异常处理
 }
