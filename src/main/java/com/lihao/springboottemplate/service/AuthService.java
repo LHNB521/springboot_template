@@ -17,7 +17,6 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-
     // 使用构造函数注入
     @Autowired
     public AuthService(UserRepository userRepository, JwtUtil jwtUtil) {
@@ -42,7 +41,6 @@ public class AuthService {
         if (!PasswordUtil.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new CustomException(400, "用户名或密码错误");
         }
-
         String token = jwtUtil.generateToken(user.getUsername());
         // 3. 如果验证通过，返回成功响应 (可以返回 JWT 或其他 Token)
         return ApiResponse.success(token);

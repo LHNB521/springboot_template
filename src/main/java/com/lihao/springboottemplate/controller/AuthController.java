@@ -2,8 +2,10 @@ package com.lihao.springboottemplate.controller;
 
 
 import com.lihao.springboottemplate.dto.LoginRequest;
+import com.lihao.springboottemplate.dto.RegisterRequest;
 import com.lihao.springboottemplate.service.AuthService;
 import com.lihao.springboottemplate.utils.ApiResponse;
+import com.lihao.springboottemplate.utils.CaptchaGenerator;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +28,21 @@ public class AuthController {
 
         // 验证验证码
         String sessionCaptcha = (String) session.getAttribute("captcha");
-        System.out.println(sessionCaptcha);
-        System.out.println(loginRequest.getCaptcha());
         if (sessionCaptcha == null || !sessionCaptcha.equals(loginRequest.getCaptcha())) {
             return new ApiResponse<>(400, "验证码无效", null);
         }
         return authService.login(loginRequest);
     }
 
+    // 注册接口
+    @PostMapping("/register")
+    public ApiResponse<String> register(@RequestBody RegisterRequest registerRequest) {
+        return authService.register(registerRequest);
+    }
+
+    // 验证码
+    @GetMapping("/captcha")
+    public String getCaptcha(HttpSession session) {
+        return CaptchaGenerator.generateCaptcha(session);
+    }
 }
