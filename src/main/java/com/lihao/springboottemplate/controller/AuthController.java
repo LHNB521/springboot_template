@@ -1,12 +1,10 @@
 package com.lihao.springboottemplate.controller;
 
-
 import com.lihao.springboottemplate.dto.LoginRequest;
 import com.lihao.springboottemplate.dto.RegisterRequest;
 import com.lihao.springboottemplate.service.AuthService;
+import com.lihao.springboottemplate.service.CaptchaService;
 import com.lihao.springboottemplate.utils.ApiResponse;
-import com.lihao.springboottemplate.utils.CaptchaGenerator;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,20 +13,22 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthController {
     private final AuthService authService;
+    private final CaptchaService captchaService;
+
 
     // 构造函数注入
     @Autowired
-    public AuthController(AuthService authService) {
+    public AuthController(AuthService authService, CaptchaService captchaService) {
         this.authService = authService;
+        this.captchaService = captchaService;
     }
 
     // 登录接口
     @PostMapping("/login")
-    public ApiResponse<String> login(@RequestBody LoginRequest loginRequest, HttpSession session) {
+    public ApiResponse<String> login(@RequestBody LoginRequest loginRequest) {
 
         // 验证验证码
-        String sessionCaptcha = (String) session.getAttribute("captcha");
-        if (sessionCaptcha == null || !sessionCaptcha.equals(loginRequest.getCaptcha())) {
+        if (!captchaService.validateCaptcha(loginRequest.getCaptcha())) {
             return new ApiResponse<>(400, "验证码无效", null);
         }
         return authService.login(loginRequest);
@@ -42,7 +42,9 @@ public class AuthController {
 
     // 验证码
     @GetMapping("/captcha")
-    public String getCaptcha(HttpSession session) {
-        return CaptchaGenerator.generateCaptcha(session);
+    public ApiResponse<String> getCaptcha() {
+        String captcha = captchaService.generateCaptcha();
+        ;
+        return ApiResponse.success(captcha);
     }
 }

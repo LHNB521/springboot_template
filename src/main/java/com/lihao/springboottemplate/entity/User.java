@@ -62,8 +62,13 @@ public class User {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
+
+
     public Integer getEnabled() {
-        return this.enabled;
+        return enabled;
     }
 
     public void setEnabled(int i) {
@@ -71,6 +76,6 @@ public class User {
     }
 
     public Integer getLocked() {
-        return this.locked;
+        return locked;
     }
 }
