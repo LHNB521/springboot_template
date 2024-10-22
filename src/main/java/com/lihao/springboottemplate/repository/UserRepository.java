@@ -14,6 +14,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
     // 自定义方法，Spring Data JPA 会自动实现
-//    boolean existsByUsername(String username);
-
+    boolean existsByUsername(String username);
 }
