@@ -4,7 +4,7 @@ package com.lihao.springboottemplate.service;
 import com.lihao.springboottemplate.config.CustomException;
 import com.lihao.springboottemplate.dto.LoginRequest;
 import com.lihao.springboottemplate.dto.RegisterRequest;
-import com.lihao.springboottemplate.entity.User;
+import com.lihao.springboottemplate.entity.UserEntity;
 import com.lihao.springboottemplate.repository.UserRepository;
 import com.lihao.springboottemplate.utils.ApiResponse;
 import com.lihao.springboottemplate.utils.PasswordUtil;
@@ -28,7 +28,7 @@ public class AuthService {
     // 登录逻辑
     public ApiResponse<String> login(LoginRequest loginRequest) {
         // 1. 查找用户是否存在
-        User user = userRepository.findByUsername(loginRequest.getUsername())
+        UserEntity user = userRepository.findByUsername(loginRequest.getUsername())
                 .orElseThrow(() -> new CustomException(404, "用户不存在"));
 
         if (user.getLocked() == 1) {
@@ -57,7 +57,7 @@ public class AuthService {
         }
 
         // 创建新用户
-        User newUser = new User();
+        UserEntity newUser = new UserEntity();
         newUser.setUsername(registerRequest.getUsername());
         newUser.setPassword(PasswordUtil.encodePassword(registerRequest.getPassword())); // 假设有一个密码哈希方法
         newUser.setName(registerRequest.getName());

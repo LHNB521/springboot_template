@@ -16,4 +16,11 @@ public class UserDto {
     public UserDto() {
     }
 
+    public Integer isEnabled() {
+        return enabled;
+    }
+
+    public Integer isLocked() {
+        return locked;
+    }
 }

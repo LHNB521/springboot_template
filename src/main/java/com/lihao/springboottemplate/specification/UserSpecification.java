@@ -1,6 +1,6 @@
 package com.lihao.springboottemplate.specification;
 
-import com.lihao.springboottemplate.entity.User;
+import com.lihao.springboottemplate.entity.UserEntity;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -8,8 +8,8 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 public class UserSpecification {
-    public static Specification<User> filterByCriteria(String username, String name, String role, Integer enabled, Integer locked) {
-        return (Root<User> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
+    public static Specification<UserEntity> filterByCriteria(String username, String name, String role, Integer enabled, Integer locked) {
+        return (Root<UserEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 
             if (username != null && !username.isEmpty()) {
