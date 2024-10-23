@@ -12,18 +12,23 @@ import com.lihao.springboottemplate.utils.PasswordUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class AuthService {
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+
+    private final TokenService tokenService;
+
     // 使用构造函数注入
     @Autowired
-    public AuthService(UserRepository userRepository, JwtUtil jwtUtil) {
+    public AuthService(UserRepository userRepository, JwtUtil jwtUtil, TokenService tokenService) {
         this.userRepository = userRepository;
         this.jwtUtil = jwtUtil;
+        this.tokenService = tokenService;
     }
-
 
     // 登录逻辑
     public ApiResponse<String> login(LoginRequest loginRequest) {
@@ -41,8 +46,17 @@ public class AuthService {
         if (!PasswordUtil.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new CustomException(400, "用户名或密码错误");
         }
+
+        // 3. 生成 token
         String token = jwtUtil.generateToken(user.getUsername());
-        // 3. 如果验证通过，返回成功响应 (可以返回 JWT 或其他 Token)
+
+        // 4. 设置 token 过期时间（例如 1小时后过期）
+        LocalDateTime expireAt = LocalDateTime.now().plusHours(1);
+
+        // 5. 将 token 存储到数据库
+        tokenService.saveOrUpdateToken(user.getUsername(), token, expireAt);
+
+        // 6. 如果验证通过，返回成功响应 (可以返回 JWT 或其他 Token)
         return ApiResponse.success(token);
     }
 
