@@ -1,6 +1,6 @@
 package com.lihao.springboottemplate.controller;
 
-import com.lihao.springboottemplate.dto.UserFilterCriteria;
+import com.lihao.springboottemplate.dto.UserDto;
 import com.lihao.springboottemplate.entity.User;
 import com.lihao.springboottemplate.service.UserService;
 import com.lihao.springboottemplate.utils.ApiResponse;
@@ -50,7 +50,7 @@ public class UserController {
 
     //获取所有用户信息
     @GetMapping("/getUserList")
-    public ApiResponse<PagedResponse<User>> getUserList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, UserFilterCriteria filterCriteria) {
+    public ApiResponse<PagedResponse<User>> getUserList(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size, UserDto filterCriteria) {
         Page<User> userPage = userService.getUserList(
                 filterCriteria.getUsername(),
                 filterCriteria.getName(),
@@ -60,6 +60,12 @@ public class UserController {
                 PageRequest.of(page, size));
         PagedResponse<User> pagedResponse = new PagedResponse<>(userPage.getContent(), userPage.getTotalElements());
         return ApiResponse.success(pagedResponse);
+    }
+
+    @PostMapping("/updateUser")
+    public ApiResponse<String> updateUser(@RequestBody User user) {
+//        userService.updateUser(user);
+        return ApiResponse.success("更新成功");
     }
 
 }

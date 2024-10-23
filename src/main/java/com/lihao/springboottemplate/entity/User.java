@@ -1,9 +1,11 @@
 package com.lihao.springboottemplate.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
 @Table(name = "users")
+@Data
 public class User {
 
     @Id
@@ -40,42 +42,5 @@ public class User {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = new java.util.Date();
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-
-    public Integer getEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(int i) {
-        this.enabled = i;
-    }
-
-    public Integer getLocked() {
-        return locked;
     }
 }

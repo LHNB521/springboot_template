@@ -28,4 +28,6 @@ public class UserService {
         return userRepository.findAll(UserSpecification.filterByCriteria(username, name, role, enabled, locked), pageable);
     }
 
+
+
 }
