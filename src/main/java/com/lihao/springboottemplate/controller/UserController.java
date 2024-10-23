@@ -50,9 +50,14 @@ public class UserController {
     //获取所有用户信息
     @GetMapping("/getUserList")
     public ApiResponse<PagedResponse<User>> getUserList(@RequestParam(defaultValue = "0") int page,
-                                                        @RequestParam(defaultValue = "10") int size) {
+                                                        @RequestParam(defaultValue = "10") int size,
+                                                        @RequestParam(required = false) String username,
+                                                        @RequestParam(required = false) String name,
+                                                        @RequestParam(required = false) String role,
+                                                        @RequestParam(required = false) Integer enabled,
+                                                        @RequestParam(required = false) Integer locked) {
 
-        Page<User> userPage = userService.getUserList(PageRequest.of(page, size));
+        Page<User> userPage = userService.getUserList(username, name, role, enabled, locked, PageRequest.of(page, size));
         PagedResponse<User> pagedResponse = new PagedResponse<>(userPage.getContent(), userPage.getTotalElements());
         return ApiResponse.success(pagedResponse);
     }

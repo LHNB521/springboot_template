@@ -3,6 +3,7 @@ package com.lihao.springboottemplate.service;
 
 import com.lihao.springboottemplate.entity.User;
 import com.lihao.springboottemplate.repository.UserRepository;
+import com.lihao.springboottemplate.specification.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +24,8 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public Page<User> getUserList(Pageable pageable) {
-        return userRepository.findAll(pageable);
+    public Page<User> getUserList(String username, String name, String role, Integer enabled, Integer locked, Pageable pageable) {
+        return userRepository.findAll(UserSpecification.filterByCriteria(username, name, role, enabled, locked), pageable);
     }
 
 }
