@@ -28,9 +28,9 @@ public class AuthController {
     public ApiResponse<String> login(@RequestBody LoginRequest loginRequest) {
 
         // 验证验证码
-        if (!captchaService.validateCaptcha(loginRequest.getCaptcha())) {
-            return new ApiResponse<>(400, "验证码无效", null);
-        }
+//        if (!captchaService.validateCaptcha(loginRequest.getCaptcha())) {
+//            return new ApiResponse<>(400, "验证码无效", null);
+//        }
         return authService.login(loginRequest);
     }
 

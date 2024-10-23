@@ -11,4 +11,8 @@ import java.util.Optional;
 public interface TokenRepository extends JpaRepository<TokenEntity, Long> {
     // 根据用户名查找 token
     Optional<TokenEntity> findByUsername(String username); // 这里用 username 来查找
+
+    Optional<TokenEntity> findByToken(String token);
+
+    void deleteByToken(String token);
 }

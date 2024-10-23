@@ -1,10 +1,7 @@
 package com.lihao.springboottemplate.entity;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
@@ -13,13 +10,16 @@ import java.time.LocalDateTime;
 public class TokenEntity {
 
     @Id
-    @Column(unique = true, nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String username;
 
     @Column(unique = true, nullable = false)
     private String token;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private LocalDateTime expire_at;
 
     // 构造函数
