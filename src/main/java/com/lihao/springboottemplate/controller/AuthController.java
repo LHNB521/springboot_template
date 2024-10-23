@@ -44,7 +44,6 @@ public class AuthController {
     @GetMapping("/captcha")
     public ApiResponse<String> getCaptcha() {
         String captcha = captchaService.generateCaptcha();
-        ;
         return ApiResponse.success(captcha);
     }
 }
