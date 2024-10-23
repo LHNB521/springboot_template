@@ -18,17 +18,19 @@ import java.util.Optional;
 @RequestMapping("/user")
 public class UserController {
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/currentUser")
     public ApiResponse<Optional<User>> getCurrentUser(@RequestHeader("Authorization") String token) {
         try {
             // 解析JWT Token，获取Claims
-            Claims claims = JwtUtil.parseToken(token);
+            Claims claims = jwtUtil.parseToken(token);
             // 从Claims中获取用户名
             String currentUsername = claims.getSubject();
             // 返回用户信息
