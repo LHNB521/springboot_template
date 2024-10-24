@@ -26,11 +26,11 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public Page<UserEntity> getUserList(String username, String name, String role, Integer enabled, Integer locked, Pageable pageable) {
+    public Page<UserEntity> getUserList(String username, String name, Integer role, Integer enabled, Integer locked, Pageable pageable) {
         return userRepository.findAll(UserSpecification.filterByCriteria(username, name, role, enabled, locked), pageable);
     }
 
-    public ApiResponse<String> updateUser(UserDto user){
+    public ApiResponse<String> updateUser(UserDto user) {
         // 验证用户名是否已经存在
         Optional<UserEntity> existingUserOpt = userRepository.findByUsername(user.getUsername());
 
@@ -40,11 +40,22 @@ public class UserService {
 
         UserEntity existingUser = existingUserOpt.get();
 
-        // 更新用户信息
-        existingUser.setName(user.getName());
-        existingUser.setRole(user.getRole());
-        existingUser.setEnabled(user.isEnabled());
-        existingUser.setLocked(user.isLocked());
+        // 根据是否存在值来更新用户信息
+        if (user.getName() != null) {
+            existingUser.setName(user.getName());
+        }
+        if (user.getRole() != null) {
+            existingUser.setRole(user.getRole());
+        }
+        if (user.getEnabled() != null) {
+            existingUser.setEnabled(user.getEnabled());
+        }
+        if (user.getLocked() != null) {
+            existingUser.setLocked(user.getLocked());
+        }
+        if (user.getEmail() != null) {
+            existingUser.setEmail(user.getEmail());
+        }
         // 可以根据需要更新其他字段
 
         // 保存用户信息到数据库

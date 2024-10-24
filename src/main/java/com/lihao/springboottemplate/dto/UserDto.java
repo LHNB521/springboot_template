@@ -8,19 +8,12 @@ import lombok.Setter;
 public class UserDto {
     private String username;
     private String name;
-    private String role;
+    private Integer role;
     private Integer enabled;
     private Integer locked;
+    private String email;
 
     // 无参构造函数
     public UserDto() {
-    }
-
-    public Integer isEnabled() {
-        return enabled;
-    }
-
-    public Integer isLocked() {
-        return locked;
     }
 }

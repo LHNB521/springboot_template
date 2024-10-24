@@ -8,7 +8,7 @@ import jakarta.persistence.criteria.Root;
 import org.springframework.data.jpa.domain.Specification;
 
 public class UserSpecification {
-    public static Specification<UserEntity> filterByCriteria(String username, String name, String role, Integer enabled, Integer locked) {
+    public static Specification<UserEntity> filterByCriteria(String username, String name, Integer role, Integer enabled, Integer locked) {
         return (Root<UserEntity> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
             Predicate predicate = criteriaBuilder.conjunction();
 
@@ -20,7 +20,7 @@ public class UserSpecification {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.like(root.get("name"), "%" + name + "%"));
             }
 
-            if (role != null && !role.isEmpty()) {
+            if (role != null) {
                 predicate = criteriaBuilder.and(predicate, criteriaBuilder.equal(root.get("role"), role));
             }
 

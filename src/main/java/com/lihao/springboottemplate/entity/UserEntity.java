@@ -22,13 +22,15 @@ public class UserEntity {
     private String name;
 
     @Column()
-    private String role;
+    private Integer role;
 
     @Column(nullable = false)
     private Integer enabled = 0;  // 账户是否激活
 
     @Column()
     private Integer locked = 0;  // 账户是否锁定
+
+    private String email;
 
     // 可选：添加创建时间和更新时间
     @Column(nullable = false, updatable = false)
@@ -42,5 +44,9 @@ public class UserEntity {
     @PreUpdate
     protected void onUpdate() {
         updatedAt = new java.util.Date();
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
