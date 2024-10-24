@@ -59,7 +59,7 @@ public class AuthService {
         // 创建新用户
         UserEntity newUser = new UserEntity();
         newUser.setUsername(registerRequest.getUsername());
-        newUser.setPassword(PasswordUtil.encodePassword(registerRequest.getPassword())); // 假设有一个密码哈希方法
+        newUser.setPassword(PasswordUtil.encodePassword(registerRequest.getPassword()));
         newUser.setName(registerRequest.getName());
         newUser.setEnabled(0);
 

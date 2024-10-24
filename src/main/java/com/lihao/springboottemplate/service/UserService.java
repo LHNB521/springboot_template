@@ -30,6 +30,21 @@ public class UserService {
         return userRepository.findAll(UserSpecification.filterByCriteria(username, name, role, enabled, locked), pageable);
     }
 
+    public ApiResponse<String> addUser(UserDto user) {
+        if (userRepository.existsByUsername(user.getUsername())) {
+            return ApiResponse.error(400, "用户名已存在");
+        }
+        UserEntity newUser = new UserEntity();
+        newUser.setUsername(user.getUsername());
+        newUser.setPassword(com.lihao.springboottemplate.utils.PasswordUtil.encodePassword(user.getPassword()));
+        newUser.setName(user.getName());
+        newUser.setRole(user.getRole());
+        newUser.setEnabled(user.getEnabled());
+        newUser.setLocked(user.getLocked());
+        userRepository.save(newUser);
+        return ApiResponse.success("添加成功");
+    }
+
     public ApiResponse<String> updateUser(UserDto user) {
         // 验证用户名是否已经存在
         Optional<UserEntity> existingUserOpt = userRepository.findByUsername(user.getUsername());
@@ -62,6 +77,18 @@ public class UserService {
         userRepository.save(existingUser);
 
         return new ApiResponse<>(200, "更新成功", null);
+    }
+
+    public ApiResponse<String> deleteUser(UserDto user) {
+        Optional<UserEntity> existingUserOpt = userRepository.findByUsername(user.getUsername());
+
+        if (existingUserOpt.isEmpty()) {
+            return new ApiResponse<>(400, "用户不存在", null);
+        }
+
+        userRepository.delete(existingUserOpt.get());
+
+        return new ApiResponse<>(200, "删除成功", null);
     }
 
 

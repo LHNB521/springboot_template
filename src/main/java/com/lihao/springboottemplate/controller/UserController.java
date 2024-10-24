@@ -62,9 +62,22 @@ public class UserController {
         return ApiResponse.success(pagedResponse);
     }
 
+    // 添加用户
+    @PostMapping("/addUser")
+    public ApiResponse<String> addUser(@RequestBody UserDto user) {
+        return userService.addUser(user);
+    }
+
+    // 更新用户
     @PostMapping("/updateUser")
     public ApiResponse<String> updateUser(@RequestBody UserDto user) {
         return userService.updateUser(user);
+    }
+
+    // 删除用户
+    @PostMapping("/deleteUser")
+    public ApiResponse<String> deleteUser(@RequestBody UserDto user) {
+        return userService.deleteUser(user);
     }
 
 }

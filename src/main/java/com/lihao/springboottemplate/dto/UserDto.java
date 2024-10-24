@@ -12,8 +12,10 @@ public class UserDto {
     private Integer enabled;
     private Integer locked;
     private String email;
+    private String password;
 
     // 无参构造函数
     public UserDto() {
     }
+
 }
